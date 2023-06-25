@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+    dev:
+        build:
+            context: .
+            target: dev
+        env_file:
+            - ./dev.env
+        volumes:
+            - ./app.js:/app/app.js
+        command: npm run serve
+        ports:
+            - '3000:3000'
+
+    test:
+        build:
+            context: .
+            target: dev
+        env_file:
+            - ./dev.env
+        environment:
+            - TESTING=True
+        volumes:
+            - ./app.js:/app/app.js
+            - ./tests:/app/tests
+            - ./constants:/app/constants
+            - ./managers:/app/managers
+        command: npm run test ##-- --watchAll
